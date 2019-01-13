@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS goods2 (
+id INTEGER PRIMARY KEY,
+prodid INTEGER UNIQUE,
+title VARCHAR,
+cost real
+);
