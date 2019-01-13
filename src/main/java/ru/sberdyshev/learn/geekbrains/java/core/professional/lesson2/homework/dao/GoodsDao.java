@@ -4,6 +4,9 @@ import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.mo
 
 import java.util.List;
 
+/**
+ * @author sberdyshev
+ */
 public interface GoodsDao {
 
     List<Good> getAllGoods();

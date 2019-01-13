@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author sberdyshev
+ */
 public class GoodsJdbcImplDao implements GoodsDao {
 
     @Override

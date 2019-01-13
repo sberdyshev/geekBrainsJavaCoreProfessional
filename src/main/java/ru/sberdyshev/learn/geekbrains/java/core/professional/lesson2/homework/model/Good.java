@@ -3,6 +3,9 @@ package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.m
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author sberdyshev
+ */
 @Getter
 @Setter
 public class Good {
