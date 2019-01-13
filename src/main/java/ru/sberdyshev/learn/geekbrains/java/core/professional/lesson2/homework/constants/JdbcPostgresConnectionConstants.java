@@ -1,5 +1,8 @@
 package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.constants;
 
+/**
+ * @author sberdyshev
+ */
 public class JdbcPostgresConnectionConstants {
     private static String url = "jdbc:postgresql://192.168.99.100:5432/geekbrains_java_prof_les2_hw";
     private static String user = "postgres";

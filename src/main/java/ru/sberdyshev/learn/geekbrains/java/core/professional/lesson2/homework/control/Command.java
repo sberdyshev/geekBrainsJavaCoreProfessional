@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * @author sberdyshev
+ */
 @Setter
 public class Command {
     @Getter

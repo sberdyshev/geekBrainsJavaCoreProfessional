@@ -2,7 +2,9 @@ package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.c
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author sberdyshev
+ */
 public class CommandController {
 
     public static final String getCostCLICommand = "/цена ";
