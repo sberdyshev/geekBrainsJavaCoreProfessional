@@ -8,13 +8,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Good {
+public class Product {
     private int id;
     private int prodid;
     private String title;
     private double cost;
 
-    public Good(int id, int prodid, String title, double cost) {
+    public Product(int id, int prodid, String title, double cost) {
         this.id = id;
         this.prodid = prodid;
         this.title = title;

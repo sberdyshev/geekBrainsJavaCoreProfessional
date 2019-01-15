@@ -1,7 +1,9 @@
-package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.dao;
+package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.dao.jdbc;
 
+import lombok.Setter;
 import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.constants.JdbcPostgresConnectionConstants;
-import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.model.Good;
+import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.dao.ProductsDao;
+import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,11 +12,30 @@ import java.util.List;
 /**
  * @author sberdyshev
  */
-public class GoodsJdbcImplDao implements GoodsDao {
+public class ProductsJdbcImplDao implements ProductsDao {
+
+    private static final String getAllGoodsQuery = "SELECT ID, PRODID, TITLE, COST FROM GOODS";
+    private static final String getGoodsWithSpecificPriceQuery = "SELECT ID, PRODID, TITLE, COST FROM GOODS WHERE COST >= ? AND COST <= ?";
+    private static final String getGoodPriceQuery = "SELECT COST FROM GOODS WHERE TITLE = ?";
+    private static final String changeGoodPriceQuery = "UPDATE GOODS SET COST = ? WHERE TITLE = ?";
+    private static final String fillGoodsQuery = "INSERT INTO goods (id, prodid, title, cost) VALUES (?, ?, ?, ?);";
+
+    private PreparedStatement getAllGoodsStatement;
+    private PreparedStatement getGoodsWithSpecificPriceStatement;
+    private PreparedStatement getGoodPriceStatement;
+    private PreparedStatement changeGoodPriceStatement;
+    private PreparedStatement fillGoodsStatement;
+
+    @Setter
+    private Connection goodsConnection;
+
+    public ProductsJdbcImplDao(Connection goodsConnection) {
+        this.goodsConnection = goodsConnection;
+    }
 
     @Override
-    public List<Good> getAllGoods() {
-        ArrayList<Good> goods = new ArrayList<>();
+    public List<Product> getAllGoods() {
+        ArrayList<Product> products = new ArrayList<>();
         String query = "SELECT ID, PRODID, TITLE, COST FROM GOODS";
         try (Connection goodsConnection = DriverManager.getConnection(JdbcPostgresConnectionConstants.getUrl(), JdbcPostgresConnectionConstants.getUser(), JdbcPostgresConnectionConstants.getPassword())) {
             PreparedStatement statement = goodsConnection.prepareStatement(query);
@@ -24,17 +45,17 @@ public class GoodsJdbcImplDao implements GoodsDao {
                 int prodid = queryResult.getInt(2);
                 String title = queryResult.getString(3);
                 double cost = queryResult.getDouble(4);
-                goods.add(new Good(id, prodid, title, cost));
+                products.add(new Product(id, prodid, title, cost));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return goods;
+        return products;
     }
 
     @Override
-    public List<Good> getGoodsWithSpecificPrice(double lowestPrice, double highestPrice) {
-        ArrayList<Good> goods = new ArrayList<>();
+    public List<Product> getGoodsWithSpecificPrice(double lowestPrice, double highestPrice) {
+        ArrayList<Product> products = new ArrayList<>();
         String query = "SELECT ID, PRODID, TITLE, COST FROM GOODS WHERE COST >= ? AND COST <= ?";
         try (Connection goodsConnection = DriverManager.getConnection(JdbcPostgresConnectionConstants.getUrl(), JdbcPostgresConnectionConstants.getUser(), JdbcPostgresConnectionConstants.getPassword())) {
             PreparedStatement statement = goodsConnection.prepareStatement(query);
@@ -46,12 +67,12 @@ public class GoodsJdbcImplDao implements GoodsDao {
                 int prodid = queryResult.getInt(2);
                 String title = queryResult.getString(3);
                 double cost = queryResult.getDouble(4);
-                goods.add(new Good(id, prodid, title, cost));
+                products.add(new Product(id, prodid, title, cost));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return goods;
+        return products;
     }
 
     @Override
@@ -87,8 +108,8 @@ public class GoodsJdbcImplDao implements GoodsDao {
     }
 
     @Override
-    public boolean fillGoods() {
-        boolean result = false;
+    public int fillGoods() {
+        int result = 0;
         String query = "INSERT INTO goods (id, prodid, title, cost) VALUES (?, ?, ?, ?);";
         try (Connection goodsConnection = DriverManager.getConnection(JdbcPostgresConnectionConstants.getUrl(), JdbcPostgresConnectionConstants.getUser(), JdbcPostgresConnectionConstants.getPassword())) {
             for (int i = 1; i <= 10000; i++) {
@@ -97,9 +118,44 @@ public class GoodsJdbcImplDao implements GoodsDao {
                 statement.setInt(2, i);
                 statement.setString(3, "товар" + i);
                 statement.setDouble(4, i);
-                result = statement.execute();
+                result = statement.executeUpdate();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private boolean handleStatement(PreparedStatement ps, String query) {
+        boolean result = false;
+        try {
+            if (ps == null || ps.isClosed()) {
+                ps = goodsConnection.prepareStatement(query);
+            }
+            result = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private ResultSet executeQuery(PreparedStatement ps, String query) {
+        ResultSet result = null;
+        try {
+            result = ps.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Операция неуспешна.");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private int executeUpdate(PreparedStatement ps, String query) {
+        int result = 0;
+        try {
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Операция неуспешна.");
             e.printStackTrace();
         }
         return result;
