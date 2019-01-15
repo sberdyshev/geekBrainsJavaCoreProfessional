@@ -32,4 +32,8 @@ public class FileProcessor {
     public static void combineFiveFilesIntoOne(String sourceFileName1,String sourceFileName2,String sourceFileName3,String sourceFileName4,String sourceFileName5,String destinationFile) {
     }
 
+    public static void readHugeFileByPages(String fileName, int pageNumber) {
+
+    }
+
 }
