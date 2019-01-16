@@ -42,26 +42,20 @@ public class FileProcessor {
     }
 
     private static void appendFileToFile(String sourceFilePath, String sourceFileDesc, String destinationFilePath) throws DestinationFileIsADirectoryException {
+        byte[] resultArray = null;
         //проверки и подготовка чтения исходного файла
-        File sourceFile = new File(sourceFilePath);
-        long sourceFileLength = sourceFile.length();
-        if (!isFileOkCheckBeforeReading(sourceFile,sourceFileLength)) {
-            return;
-        }
-        byte[] resultArray = new byte[(sourceFileLength >= 100L) ? 100 : (int) sourceFileLength];
-        //чтение исходного файла
-        int readBytes = readBytesFromFile(sourceFilePath,sourceFileDesc,resultArray);
-        //проверка результата чтения исходного файла
-        if (readBytes == 0) {
-            return;
+        if (isFileOkCheckBeforeReading(sourceFilePath)) {
+            File sourceFile = new File(sourceFilePath);
+            long sourceFileLength = sourceFile.length();
+            resultArray = new byte[(sourceFileLength >= 100L) ? 100 : (int) sourceFileLength];
+            //чтение исходного файла
+            readBytesFromFile(sourceFilePath, sourceFileDesc, resultArray);
         }
         //проверки и подготовка чтения конечного файла
-        File destinationFile = new File(destinationFilePath);
-        if (!isFileOkCheckBeforeWriting(destinationFile)) {
-            return;
+        if (isFileOkCheckBeforeWriting(destinationFilePath)) {
+            //чтение конечного файла
+            writeBytesToFile(destinationFilePath, resultArray);
         }
-        //чтение конечного файла
-        writeBytesToFile(destinationFilePath,resultArray);
     }
 
     private static int readBytesFromFile(String sourceFilePath, String sourceFileDesc, byte[] resultArray) {
@@ -89,6 +83,9 @@ public class FileProcessor {
     }
 
     private static void writeBytesToFile(String destinationFilePath, byte[] sourceArray) {
+        if (sourceArray == null) {
+            return;
+        }
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(new FileOutputStream(destinationFilePath, true));
@@ -108,22 +105,25 @@ public class FileProcessor {
         }
     }
 
-    private static boolean isFileOkCheckBeforeReading(File sourceFile, long fileLength) {
+    private static boolean isFileOkCheckBeforeReading(String sourceFilePath) {
         boolean isSuccessResult = true;
+        if (sourceFilePath == null) {
+            return false;
+        }
+        File sourceFile = new File(sourceFilePath);
+        long sourceFileLength = sourceFile.length();
         if (!sourceFile.exists() || !sourceFile.isFile()) {
             isSuccessResult = false;
         }
-        if (fileLength <= 0) {
+        if (sourceFileLength <= 0) {
             return false;
         }
         return isSuccessResult;
     }
 
-    private static boolean isFileOkCheckBeforeWriting(File destinationFile) throws DestinationFileIsADirectoryException {
+    private static boolean isFileOkCheckBeforeWriting(String destinationFilePath) throws DestinationFileIsADirectoryException {
         boolean isSuccessResult = true;
-        if (!destinationFile.isFile()) {
-            throw new DestinationFileIsADirectoryException(destinationFile.getAbsolutePath() + " является директорией");
-        }
+        File destinationFile = new File(destinationFilePath);
         if (!destinationFile.exists()) {
             try {
                 if (!destinationFile.createNewFile()) {
@@ -135,6 +135,9 @@ public class FileProcessor {
                 e.printStackTrace();
                 isSuccessResult = false;
             }
+        }
+        if (!destinationFile.isFile()) {
+            throw new DestinationFileIsADirectoryException(destinationFile.getAbsolutePath() + " является директорией");
         }
         return isSuccessResult;
     }

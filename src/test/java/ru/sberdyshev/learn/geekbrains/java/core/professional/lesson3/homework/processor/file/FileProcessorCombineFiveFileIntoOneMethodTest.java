@@ -4,10 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,6 +13,16 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final PrintStream originalErr = System.err;
+
+    private static void clearDestinationFile(String destinationFilePath) throws IOException {
+        if (destinationFilePath != null) {
+            File destinationFile = new File(destinationFilePath);
+            if (destinationFile.exists()) {
+                destinationFile.delete();
+                destinationFile.createNewFile();
+            }
+        }
+    }
 
     @Before
     public void setUpStreams() {
@@ -38,20 +45,25 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         String sourceFile3 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
         String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
         String sourceFile5 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource5.txt";
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile.txt";
+        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFiles.txt";
+        clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
 
         byte[] resultArray;
         FileInputStream fis = new FileInputStream(destinationFile);
-        int byteArrayMaxLengh = 50;
+        int byteArrayMaxLengh = 100;
         byte[] buffer = new byte[byteArrayMaxLengh];
         int actualLength = fis.read(buffer);
-        resultArray = new byte[actualLength];
+        if (actualLength == -1) {
+            resultArray = new byte[0];
+        } else {
+            resultArray = new byte[actualLength];
+        }
         for (int i = 0; i < actualLength; i++) {
             resultArray[i] = buffer[i];
         }
-        assertEquals(expectedArray, resultArray);
+        assertEquals(new String(expectedArray), new String(resultArray));
     }
 
     @Test
@@ -63,20 +75,25 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         String sourceFile3 = null;
         String sourceFile4 = null;
         String sourceFile5 = null;
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile.txt";
+        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNullSourceFileNames.txt";
+        clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
 
         byte[] resultArray;
         FileInputStream fis = new FileInputStream(destinationFile);
-        int byteArrayMaxLengh = 50;
+        int byteArrayMaxLengh = 100;
         byte[] buffer = new byte[byteArrayMaxLengh];
         int actualLength = fis.read(buffer);
-        resultArray = new byte[actualLength];
+        if (actualLength == -1) {
+            resultArray = new byte[0];
+        } else {
+            resultArray = new byte[actualLength];
+        }
         for (int i = 0; i < actualLength; i++) {
             resultArray[i] = buffer[i];
         }
-        assertEquals(expectedArray, resultArray);
+        assertEquals(new String(expectedArray), new String(resultArray));
     }
 
     @Test
@@ -88,20 +105,25 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         String sourceFile3 = null;
         String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
         String sourceFile5 = null;
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile.txt";
+        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineSourceFileNamesWithOneNullFileName.txt";
+        clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
 
         byte[] resultArray;
         FileInputStream fis = new FileInputStream(destinationFile);
-        int byteArrayMaxLengh = 50;
+        int byteArrayMaxLengh = 100;
         byte[] buffer = new byte[byteArrayMaxLengh];
         int actualLength = fis.read(buffer);
-        resultArray = new byte[actualLength];
+        if (actualLength == -1) {
+            resultArray = new byte[0];
+        } else {
+            resultArray = new byte[actualLength];
+        }
         for (int i = 0; i < actualLength; i++) {
             resultArray[i] = buffer[i];
         }
-        assertEquals(expectedArray, resultArray);
+        assertEquals(new String(expectedArray), new String(resultArray));
     }
 
     @Test
@@ -129,19 +151,24 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         String sourceFile3 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
         String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
         String sourceFile5 = "fileX";
-        String destinationFile = null;
+        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNotExistedSourceFiles.txt";
+        clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
 
         byte[] resultArray;
         FileInputStream fis = new FileInputStream(destinationFile);
-        int byteArrayMaxLengh = 50;
+        int byteArrayMaxLengh = 100;
         byte[] buffer = new byte[byteArrayMaxLengh];
         int actualLength = fis.read(buffer);
-        resultArray = new byte[actualLength];
+        if (actualLength == -1) {
+            resultArray = new byte[0];
+        } else {
+            resultArray = new byte[actualLength];
+        }
         for (int i = 0; i < actualLength; i++) {
             resultArray[i] = buffer[i];
         }
-        assertEquals(expectedArray, resultArray);
+        assertEquals(new String(expectedArray), new String(resultArray));
     }
 }
