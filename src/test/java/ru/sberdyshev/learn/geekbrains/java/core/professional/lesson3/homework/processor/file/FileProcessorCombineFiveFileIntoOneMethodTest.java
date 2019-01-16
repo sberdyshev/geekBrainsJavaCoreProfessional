@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 
-public class FileProcessorFirstTaskTest {
+public class FileProcessorCombineFiveFileIntoOneMethodTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -27,42 +27,6 @@ public class FileProcessorFirstTaskTest {
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
-    }
-
-    @Test
-    public void readFileIntoConsole() {
-        final String expectedResult = "1111111";
-
-        FileProcessor.readFileIntoConsole("C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testFile.txt");
-
-        assertEquals(expectedResult, outContent.toString());
-    }
-
-    @Test
-    public void readBigFileIntoConsole() {
-        final String expectedResult = "1111111\r\n11111111111111\r\n1111111\r\n1111111\r\n1111111";
-
-        FileProcessor.readFileIntoConsole("C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testBigFile.txt");
-
-        assertEquals(expectedResult, outContent.toString());
-    }
-
-    @Test
-    public void readNullFileIntoConsole() {
-        final String expectedResult = "Имя файла не определено\r\n";
-
-        FileProcessor.readFileIntoConsole(null);
-
-        assertEquals(expectedResult, outContent.toString());
-    }
-
-    @Test
-    public void readNonExistedFileIntoConsole() {
-        final String expectedResult = "Файл не найден\r\n";
-
-        FileProcessor.readFileIntoConsole("NotAFile.file");
-
-        assertEquals(expectedResult, outContent.toString());
     }
 
     @Test
@@ -179,29 +143,5 @@ public class FileProcessorFirstTaskTest {
             resultArray[i] = buffer[i];
         }
         assertEquals(expectedArray, resultArray);
-    }
-
-    @Test
-    public void readHugeFileByPages() {
-    }
-
-    @Test
-    public void readHugeFileByPagesNullFileName() {
-    }
-
-    @Test
-    public void readHugeFileByPagesNotExistedFile() {
-    }
-
-    @Test
-    public void readHugeFileByPagesPageNumberTooFar() {
-    }
-
-    @Test
-    public void readHugeFileByPagesPageNumberNegative() {
-    }
-
-    @Test
-    public void readHugeFileByPagesPageNumberZero() {
     }
 }
