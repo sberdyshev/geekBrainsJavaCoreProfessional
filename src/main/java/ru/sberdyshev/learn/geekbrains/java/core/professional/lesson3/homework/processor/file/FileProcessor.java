@@ -5,6 +5,7 @@ import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson3.homework.pr
 import java.io.*;
 
 public class FileProcessor {
+    private static int pageSize = 1800;
 
     public static void readFileIntoConsole(String fileName) {
         if (fileName == null) {

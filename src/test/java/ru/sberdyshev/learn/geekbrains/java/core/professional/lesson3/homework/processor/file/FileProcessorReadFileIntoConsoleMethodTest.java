@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertEquals;
 
 public class FileProcessorReadFileIntoConsoleMethodTest {
+    private final String rootPath = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\";
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -31,7 +32,7 @@ public class FileProcessorReadFileIntoConsoleMethodTest {
     public void readFileIntoConsole() {
         final String expectedResult = "1111111";
 
-        FileProcessor.readFileIntoConsole("C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testFile.txt");
+        FileProcessor.readFileIntoConsole(rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testFile.txt");
 
         assertEquals(expectedResult, outContent.toString());
     }
@@ -40,7 +41,7 @@ public class FileProcessorReadFileIntoConsoleMethodTest {
     public void readBigFileIntoConsole() {
         final String expectedResult = "1111111\r\n11111111111111\r\n1111111\r\n1111111\r\n1111111";
 
-        FileProcessor.readFileIntoConsole("C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testBigFile.txt");
+        FileProcessor.readFileIntoConsole(rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testBigFile.txt");
 
         assertEquals(expectedResult, outContent.toString());
     }
