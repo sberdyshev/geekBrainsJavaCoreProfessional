@@ -9,6 +9,7 @@ import java.io.*;
 import static org.junit.Assert.assertEquals;
 
 public class FileProcessorCombineFiveFileIntoOneMethodTest {
+    private final String rootPath = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\";
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -40,12 +41,12 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
     public void combineFiveFiles() throws IOException {
         final byte[] expectedArray = "12233\r\n3444455555\r\niwruoefhpiuewrhfeqihgoih348yt93fhq^^%#%)+^)*&$^%%#J:KJG:GP(T&^$%&#%RUFG".getBytes();
 
-        String sourceFile1 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
-        String sourceFile2 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
-        String sourceFile3 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
-        String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
-        String sourceFile5 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource5.txt";
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFiles.txt";
+        String sourceFile1 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
+        String sourceFile2 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
+        String sourceFile3 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
+        String sourceFile4 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
+        String sourceFile5 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource5.txt";
+        String destinationFile = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFiles.txt";
         clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
@@ -75,7 +76,7 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         String sourceFile3 = null;
         String sourceFile4 = null;
         String sourceFile5 = null;
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNullSourceFileNames.txt";
+        String destinationFile = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNullSourceFileNames.txt";
         clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
@@ -100,12 +101,12 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
     public void combineSourceFileNamesWithOneNullFileName() throws IOException {
         final byte[] expectedArray = "1224444".getBytes();
 
-        String sourceFile1 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
-        String sourceFile2 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
+        String sourceFile1 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
+        String sourceFile2 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
         String sourceFile3 = null;
-        String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
+        String sourceFile4 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
         String sourceFile5 = null;
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineSourceFileNamesWithOneNullFileName.txt";
+        String destinationFile = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineSourceFileNamesWithOneNullFileName.txt";
         clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
@@ -130,11 +131,11 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
     public void combineFiveFilesInNullDestinationFileName() throws IOException {
         final String expectedOutput = "Имя конечного файла не определено";
 
-        String sourceFile1 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
-        String sourceFile2 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
-        String sourceFile3 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
-        String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
-        String sourceFile5 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource5.txt";
+        String sourceFile1 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource1.txt";
+        String sourceFile2 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
+        String sourceFile3 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
+        String sourceFile4 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
+        String sourceFile5 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource5.txt";
         String destinationFile = null;
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
@@ -147,11 +148,11 @@ public class FileProcessorCombineFiveFileIntoOneMethodTest {
         final byte[] expectedArray = "2233\r\n34444".getBytes();
 
         String sourceFile1 = "file1";
-        String sourceFile2 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
-        String sourceFile3 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
-        String sourceFile4 = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
+        String sourceFile2 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource2.txt";
+        String sourceFile3 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource3.txt";
+        String sourceFile4 = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\testCombineFilesSource4.txt";
         String sourceFile5 = "fileX";
-        String destinationFile = "C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNotExistedSourceFiles.txt";
+        String destinationFile = rootPath + "ru.sberdyshev\\learn.geekbrains.java.core.professional.lesson3.homework\\task1\\destinationFile_combineFiveFilesNotExistedSourceFiles.txt";
         clearDestinationFile(destinationFile);
 
         FileProcessor.combineFiveFilesIntoOne(sourceFile1, sourceFile2, sourceFile3, sourceFile4, sourceFile5, destinationFile);
