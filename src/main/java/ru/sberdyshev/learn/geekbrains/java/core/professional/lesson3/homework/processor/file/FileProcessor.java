@@ -143,7 +143,7 @@ public class FileProcessor {
         return isSuccessResult;
     }
 
-    public static char[] readHugeFileByPages(String fileName, int pageNumber) {
+    public static char[] readHugeFileByPage(String fileName, int pageNumber) {
         checkArguments(fileName, pageNumber);
         char[] buffer = null;
         Reader reader = null;

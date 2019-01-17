@@ -80,7 +80,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
     public void readHugeFileByPagesPage1() throws IOException {
         final String expectedResult = pageFilledWith1;
 
-        char[] result = FileProcessor.readHugeFileByPages(hugeFilePath, 1);
+        char[] result = FileProcessor.readHugeFileByPage(hugeFilePath, 1);
 
         assertEquals(expectedResult, new String(result));
     }
@@ -89,7 +89,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
     public void readHugeFileByPagesPageInTheMiddle() {
         final String expectedResult = pageFilledWith2;
 
-        char[] result = FileProcessor.readHugeFileByPages(hugeFilePath, 3000);
+        char[] result = FileProcessor.readHugeFileByPage(hugeFilePath, 3000);
 
         assertEquals(expectedResult, new String(result));
     }
@@ -98,7 +98,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
     public void readHugeFileByPagesPageInTheEnd() {
         final String expectedResult = pageFilledWith3;
 
-        char[] result = FileProcessor.readHugeFileByPages(hugeFilePath, 5000);
+        char[] result = FileProcessor.readHugeFileByPage(hugeFilePath, 5000);
 
         assertEquals(expectedResult, new String(result));
     }
@@ -108,7 +108,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
         final String expectedResult = "Имя файла не заполненно";
 
         try {
-            FileProcessor.readHugeFileByPages(null, 1);
+            FileProcessor.readHugeFileByPage(null, 1);
         } catch (IllegalArgumentException e) {
             System.out.print(e.getLocalizedMessage());
         }
@@ -120,7 +120,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
     public void readHugeFileByPagesNotExistedFile() {
         final char[] expectedResult = null;
 
-        char[] result = FileProcessor.readHugeFileByPages("fileX", 1);
+        char[] result = FileProcessor.readHugeFileByPage("fileX", 1);
 
         assertEquals(expectedResult, result);
     }
@@ -130,7 +130,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
         final String expectedResult = "Слишком большой номер страницы";
 
         try {
-            FileProcessor.readHugeFileByPages(hugeFilePath, 999999999);
+            FileProcessor.readHugeFileByPage(hugeFilePath, 999999999);
         } catch (IllegalArgumentException e) {
             System.out.print(e.getLocalizedMessage());
         }
@@ -143,7 +143,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
         final String expectedResult = "Номер страницы не может быть меньше 1";
 
         try {
-            FileProcessor.readHugeFileByPages(hugeFilePath, -1);
+            FileProcessor.readHugeFileByPage(hugeFilePath, -1);
         } catch (IllegalArgumentException e) {
             System.out.print(e.getLocalizedMessage());
         }
@@ -156,7 +156,7 @@ public class FileProcessorReadHugeFileByPagesMethodTest {
         final String expectedResult = "Номер страницы не может быть меньше 1";
 
         try {
-            FileProcessor.readHugeFileByPages(hugeFilePath, 0);
+            FileProcessor.readHugeFileByPage(hugeFilePath, 0);
         } catch (IllegalArgumentException e) {
             System.out.print(e.getLocalizedMessage());
         }
