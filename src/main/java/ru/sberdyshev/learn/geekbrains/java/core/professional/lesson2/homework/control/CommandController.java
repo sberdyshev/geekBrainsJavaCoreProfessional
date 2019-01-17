@@ -2,6 +2,7 @@ package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson2.homework.c
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * @author sberdyshev
  */
@@ -38,8 +39,8 @@ public class CommandController {
         int leadingIndexOfWhiteSpace = 0;
         int trailingIndexOfWhiteSpace = 0;
         for (int i = 0; i < argsAmount; i++) {
-            leadingIndexOfWhiteSpace = line.indexOf(' ', leadingIndexOfWhiteSpaceForAPreviousCommand+1);
-            trailingIndexOfWhiteSpace = line.indexOf(' ', leadingIndexOfWhiteSpace+1);
+            leadingIndexOfWhiteSpace = line.indexOf(' ', leadingIndexOfWhiteSpaceForAPreviousCommand + 1);
+            trailingIndexOfWhiteSpace = line.indexOf(' ', leadingIndexOfWhiteSpace + 1);
             String arg = null;
             if (leadingIndexOfWhiteSpace >= trailingIndexOfWhiteSpace) {
                 arg = line.substring(leadingIndexOfWhiteSpace).trim();
