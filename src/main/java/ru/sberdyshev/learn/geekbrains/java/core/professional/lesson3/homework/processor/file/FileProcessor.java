@@ -143,8 +143,46 @@ public class FileProcessor {
         return isSuccessResult;
     }
 
-    public static void readHugeFileByPages(String fileName, int pageNumber) {
+    public static char[] readHugeFileByPages(String fileName, int pageNumber) {
+        checkArguments(fileName, pageNumber);
+        char[] buffer = null;
+        Reader reader = null;
+        try {
+            File file = new File(fileName);
+            if (!file.exists() || !file.isFile()) {
+                return buffer;
+            }
+            reader = new BufferedReader(new FileReader(fileName));
+            buffer = new char[pageSize];
+            long numberOfCharsToSkip = (pageNumber - 1) * pageSize;
+            if (numberOfCharsToSkip >= file.length()) {
+                throw new IllegalArgumentException("Слишком большой номер страницы");
+            }
+            reader.skip(numberOfCharsToSkip);
+            reader.read(buffer, 0, pageSize);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return buffer;
+    }
 
+    private static void checkArguments(String fileName, int pageNumber) {
+        if (fileName == null) {
+            throw new IllegalArgumentException("Имя файла не заполненно");
+        }
+        if (pageNumber <= 0) {
+            throw new IllegalArgumentException("Номер страницы не может быть меньше 1");
+        }
     }
 
 }
