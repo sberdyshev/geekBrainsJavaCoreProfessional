@@ -1,4 +1,4 @@
-package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson4;
+package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson4.classwork;
 
 public class Test2 {
     public static void main(String[] args) {
