@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,18 +29,21 @@ public class ArrayProcessorLoadTest {
         SOURCE_ONLY_ONES = new ArrayList<>();
         SOURCE_ONLY_FOURS = new ArrayList<>();
         SOURCE_OK = new ArrayList<>();
-        for (int i = 0; i < 150000000; i++) {
+        Random rnd = new Random();
+        int maxListSize = 150000000;
+//        int maxListSize = 15;
+        for (int i = 0; i < maxListSize; i++) {
             SOURCE_ONLY_ONES.add(1);
             SOURCE_ONLY_FOURS.add(4);
-            int rand = (int) Math.random() * 10;
+            int rand = rnd.nextInt(10);
             if (rand > 5) {
                 SOURCE_OK.add(4);
             } else {
                 SOURCE_OK.add(1);
             }
             SOURCE_ONLY_ONES.add(rand);
-            if (i%1500000==0) {
-                System.out.println("..."+ i/1500000 + "%");
+            if (i % 1500000 == 0) {
+                System.out.println("..." + i / 1500000 + "%");
             }
         }
         System.out.println("Ready!");
@@ -69,7 +73,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4ClassicSuccessFalseOtherNumbers() {
+    public void checkFor1And4SuccessFalseOtherNumbersClassic() {
         System.out.println("ClassicSuccessFalseOtherNumbers");
         boolean result = ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
         ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
@@ -81,7 +85,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4ClassicSuccessFalseOnlyOnes() {
+    public void checkFor1And4SuccessFalseOnlyOnesClassic() {
         System.out.println("ClassicSuccessFalseOnlyOnes");
         boolean result = ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
         ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
@@ -93,7 +97,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4CountSuccessFalseOtherNumbers() {
+    public void checkFor1And4SuccessFalseOtherNumbersCount() {
         System.out.println("CountSuccessFalseOtherNumbers");
         boolean result = ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
         ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
@@ -105,7 +109,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4CountSuccessFalseOnlyOnes() {
+    public void checkFor1And4SuccessFalseOnlyOnesCount() {
         System.out.println("CountSuccessFalseOnlyOnes");
         boolean result = ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
         ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
@@ -117,7 +121,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4DistinctSuccessFalseOtherNumbers() {
+    public void checkFor1And4SuccessFalseOtherNumbersDistinct() {
         System.out.println("DistinctSuccessFalseOtherNumbers");
         boolean result = ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
         ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
@@ -129,7 +133,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4DistinctSuccessFalseOnlyOnes() {
+    public void checkFor1And4SuccessFalseOnlyOnesDistinct() {
         System.out.println("DistinctSuccessFalseOnlyOnes");
         boolean result = ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
         ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
@@ -141,7 +145,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4FilterSuccessFalseOtherNumbers() {
+    public void checkFor1And4SuccessFalseOtherNumbersFilter() {
         System.out.println("FilterSuccessFalseOtherNumbers");
         boolean result = ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
         ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
@@ -153,7 +157,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4FilterSuccessFalseOnlyOnes() {
+    public void checkFor1And4SuccessFalseOnlyOnesFilter() {
         System.out.println("FilterSuccessFalseOnlyOnes");
         boolean result = ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
         ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
@@ -165,7 +169,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4ClassicSuccessFalseOnlyFours() {
+    public void checkFor1And4SuccessFalseOnlyFoursClassic() {
         System.out.println("checkFor1And4ClassicSuccessFalseOnlyFours");
         boolean result = ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
         ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
@@ -178,7 +182,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4ClassicSuccessTrue() {
+    public void checkFor1And4SuccessTrueClassic() {
         System.out.println("checkFor1And4ClassicSuccessTrue");
         boolean result = ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
         ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
@@ -190,7 +194,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4FilterSuccessFalseOnlyFours() {
+    public void checkFor1And4SuccessFalseOnlyFoursFilter() {
         System.out.println("checkFor1And4FilterSuccessFalseOnlyFours");
         boolean result = ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
         ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
@@ -202,7 +206,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4FilterSuccessTrue() {
+    public void checkFor1And4SuccessTrueFilter() {
         System.out.println("checkFor1And4FilterSuccessTrue");
         boolean result = ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
         ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
@@ -214,7 +218,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4DistinctSuccessFalseOnlyFours() {
+    public void checkFor1And4SuccessFalseOnlyFoursDistinct() {
         System.out.println("checkFor1And4DistinctSuccessFalseOnlyFours");
         boolean result = ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
         ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
@@ -226,7 +230,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4DistinctSuccessTrue() {
+    public void checkFor1And4SuccessTrueDistinct() {
         System.out.println("checkFor1And4DistinctSuccessTrue");
         boolean result = ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
         ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
@@ -238,7 +242,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4CountSuccessFalseOnlyFours() {
+    public void checkFor1And4SuccessFalseOnlyFoursCount() {
         System.out.println("checkFor1And4CountSuccessFalseOnlyFours");
         boolean result = ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
         ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
@@ -250,7 +254,7 @@ public class ArrayProcessorLoadTest {
     }
 
     @Test
-    public void checkFor1And4CountSuccessTrue() {
+    public void checkFor1And4SuccessTrueCount() {
         System.out.println("checkFor1And4CountSuccessTrue");
         boolean result = ArrayProcessor.checkFor1And4Count(SOURCE_OK);
         ArrayProcessor.checkFor1And4Count(SOURCE_OK);
@@ -259,6 +263,126 @@ public class ArrayProcessorLoadTest {
         ArrayProcessor.checkFor1And4Count(SOURCE_OK);
 
         assertThat(result).isEqualTo(EXPECTED_RESULT_OK);
+    }
+
+    @Test
+    public void checkFor1And4CountAll() {
+        System.out.println("Count ALL");
+        boolean resultSuccessTrue = ArrayProcessor.checkFor1And4Count(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OK);
+        boolean resultSuccessFalseOnlyFours = ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_FOURS);
+        boolean resultSuccessFalseOtherNumbers = ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Count(SOURCE_OTHER_NUMBERS);
+        boolean resultSuccessFalseOnlyOnes = ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Count(SOURCE_ONLY_ONES);
+
+        assertThat(resultSuccessFalseOnlyFours).isEqualTo(EXPECTED_RESULT_ONLY_FOURS);
+        assertThat(resultSuccessFalseOnlyOnes).isEqualTo(EXPECTED_RESULT_ONLY_ONES);
+        assertThat(resultSuccessFalseOtherNumbers).isEqualTo(EXPECTED_RESULT_OTHER_NUMBERS);
+        assertThat(resultSuccessTrue).isEqualTo(EXPECTED_RESULT_OK);
+    }
+
+    @Test
+    public void checkFor1And4DistinctAll() {
+        System.out.println("Distinct ALL");
+        boolean resultSuccessTrue = ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OK);
+        boolean resultSuccessFalseOnlyFours = ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_FOURS);
+        boolean resultSuccessFalseOtherNumbers = ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_OTHER_NUMBERS);
+        boolean resultSuccessFalseOnlyOnes = ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Distinct(SOURCE_ONLY_ONES);
+
+        assertThat(resultSuccessFalseOnlyFours).isEqualTo(EXPECTED_RESULT_ONLY_FOURS);
+        assertThat(resultSuccessFalseOnlyOnes).isEqualTo(EXPECTED_RESULT_ONLY_ONES);
+        assertThat(resultSuccessFalseOtherNumbers).isEqualTo(EXPECTED_RESULT_OTHER_NUMBERS);
+        assertThat(resultSuccessTrue).isEqualTo(EXPECTED_RESULT_OK);
+    }
+
+    @Test
+    public void checkFor1And4FilterAll() {
+        System.out.println("Filter ALL");
+        boolean resultSuccessTrue = ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OK);
+        boolean resultSuccessFalseOnlyFours = ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_FOURS);
+        boolean resultSuccessFalseOtherNumbers = ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_OTHER_NUMBERS);
+        boolean resultSuccessFalseOnlyOnes = ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Filter(SOURCE_ONLY_ONES);
+
+        assertThat(resultSuccessFalseOnlyFours).isEqualTo(EXPECTED_RESULT_ONLY_FOURS);
+        assertThat(resultSuccessFalseOnlyOnes).isEqualTo(EXPECTED_RESULT_ONLY_ONES);
+        assertThat(resultSuccessFalseOtherNumbers).isEqualTo(EXPECTED_RESULT_OTHER_NUMBERS);
+        assertThat(resultSuccessTrue).isEqualTo(EXPECTED_RESULT_OK);
+    }
+
+    @Test
+    public void checkFor1And4ClassicAll() {
+        System.out.println("Classic ALL");
+        boolean resultSuccessTrue = ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OK);
+        boolean resultSuccessFalseOnlyFours = ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_FOURS);
+        boolean resultSuccessFalseOtherNumbers = ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_OTHER_NUMBERS);
+        boolean resultSuccessFalseOnlyOnes = ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
+        ArrayProcessor.checkFor1And4Classic(SOURCE_ONLY_ONES);
+
+        assertThat(resultSuccessFalseOnlyFours).isEqualTo(EXPECTED_RESULT_ONLY_FOURS);
+        assertThat(resultSuccessFalseOnlyOnes).isEqualTo(EXPECTED_RESULT_ONLY_ONES);
+        assertThat(resultSuccessFalseOtherNumbers).isEqualTo(EXPECTED_RESULT_OTHER_NUMBERS);
+        assertThat(resultSuccessTrue).isEqualTo(EXPECTED_RESULT_OK);
     }
 
 }

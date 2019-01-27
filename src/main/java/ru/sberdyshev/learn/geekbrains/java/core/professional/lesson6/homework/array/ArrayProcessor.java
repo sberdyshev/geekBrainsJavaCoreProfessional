@@ -64,12 +64,12 @@ public class ArrayProcessor {
             return false;
         }
         List<Integer> result = source.stream()
-                .filter(element -> !(element != null && (element.equals(4) || element.equals(1)))).distinct()
+                .filter(element -> (element != null && (element.equals(4) || element.equals(1))))
                 .collect(Collectors.toList());
-        if (result.size() != 2) {
+        if (result.size() != source.size()) {
             return false;
         } else {
-            return true;
+            return (result.stream().anyMatch(element -> element == 4)&&(result.stream().anyMatch(element -> element == 1)));
         }
     }
 
