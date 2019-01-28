@@ -1,4 +1,7 @@
-package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.array;
+package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.array;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +11,19 @@ import java.util.stream.Collectors;
  * @author sberdyshev
  */
 public class ArrayProcessor {
+    private final static Logger logger = LoggerFactory.getLogger(ArrayProcessor.class);
 
     public static List<Integer> exctractElements(List<Integer> source) {
         if (source == null) {
-            throw new IllegalArgumentException("Source array can not be null");
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Source array can not be null");
+            logger.debug(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
+            throw illegalArgumentException;
         }
         int sourceSize = source.size();
         if (sourceSize < 4) {
-            throw new IllegalArgumentException("Source array is too short");
+            IllegalArgumentException source_array_is_too_short = new IllegalArgumentException("Source array is too short");
+            logger.debug(source_array_is_too_short.getLocalizedMessage(), source_array_is_too_short);
+            throw source_array_is_too_short;
         }
         List<Integer> result = new ArrayList<>();
         int resultSize = sourceSize % 4;
@@ -23,20 +31,20 @@ public class ArrayProcessor {
             Integer sourceElement = source.get(sourceSize - (resultSize - i));
             result.add(sourceElement);
         }
-
         return result;
     }
 
     public static boolean checkFor1And4Classic(List<Integer> source) {
         if (source == null) {
-            throw new IllegalArgumentException("Source array can not be null");
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Source array can not be null");
+            logger.debug(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
+            throw illegalArgumentException;
         }
         if (source.size() == 0) {
             return false;
         }
         boolean is4found = false;
         boolean is1found = false;
-
         for (Integer element : source) {
             int elementValue = element.intValue();
             boolean isElementEquals4 = elementValue == 4;
@@ -52,13 +60,14 @@ public class ArrayProcessor {
                 }
             }
         }
-
         return (is1found && is4found);
     }
 
     public static boolean checkFor1And4Filter(List<Integer> source) {
         if (source == null) {
-            throw new IllegalArgumentException("Source array can not be null");
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Source array can not be null");
+            logger.debug(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
+            throw illegalArgumentException;
         }
         if (source.size() == 0) {
             return false;
@@ -69,13 +78,15 @@ public class ArrayProcessor {
         if (result.size() != source.size()) {
             return false;
         } else {
-            return (result.stream().anyMatch(element -> element == 4)&&(result.stream().anyMatch(element -> element == 1)));
+            return (result.stream().anyMatch(element -> element == 4) && (result.stream().anyMatch(element -> element == 1)));
         }
     }
 
     public static boolean checkFor1And4Distinct(List<Integer> source) {
         if (source == null) {
-            throw new IllegalArgumentException("Source array can not be null");
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Source array can not be null");
+            logger.debug(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
+            throw illegalArgumentException;
         }
         if (source.size() == 0) {
             return false;
@@ -102,7 +113,9 @@ public class ArrayProcessor {
 
     public static boolean checkFor1And4Count(List<Integer> source) {
         if (source == null) {
-            throw new IllegalArgumentException("Source array can not be null");
+            IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Source array can not be null");
+            logger.debug(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
+            throw illegalArgumentException;
         }
         if (source.size() == 0) {
             return false;

@@ -1,4 +1,4 @@
-package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.array;
+package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.array;
 
 import org.junit.After;
 import org.junit.Before;

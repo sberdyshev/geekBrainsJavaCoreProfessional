@@ -1,13 +1,11 @@
-package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.array;
+package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.array;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
