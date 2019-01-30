@@ -5,6 +5,7 @@ import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.te
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author sberdyshev
@@ -18,5 +19,25 @@ public class StudentDao extends GenericDao<Student> {
     @Override
     public int count() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public List<Student> getEntities() throws SQLException{
+        return null;
+    }
+
+    @Override
+    public Student getEntity() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public boolean updateEntity(Student entity) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean addEntity(Student entity) throws SQLException {
+        return false;
     }
 }

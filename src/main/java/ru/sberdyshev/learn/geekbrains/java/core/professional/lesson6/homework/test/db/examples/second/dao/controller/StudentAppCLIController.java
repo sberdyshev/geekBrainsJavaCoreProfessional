@@ -5,6 +5,13 @@ import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.te
 /**
  * @author sberdyshev
  */
-public interface CLIController extends Controller {
-    public Command parse(String line);
+public class StudentAppCLIController implements CLIController {
+    @Override
+    public Command parse(String line) {
+        return null;
+    }
+
+    @Override
+    public void showCommands() {
+    }
 }

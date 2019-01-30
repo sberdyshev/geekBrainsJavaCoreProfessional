@@ -2,6 +2,7 @@ package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.t
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author sberdyshev
@@ -9,15 +10,18 @@ import java.sql.SQLException;
  */
 public abstract class GenericDao<T> {
     public abstract int count() throws SQLException;
+    public abstract List<T> getEntities() throws SQLException;
+    public abstract T getEntity() throws SQLException;
+    public abstract boolean updateEntity(T entity) throws SQLException;
+    public abstract boolean addEntity(T entity) throws SQLException;
 
-    //todo private?
-    //Protected
-    protected final String tableName;
-    protected Connection con;
+    private final String tableName;
+    private Connection connection;
 
-    //todo private?
-    protected GenericDao(Connection con, String tableName) {
+    public GenericDao(Connection connection, String tableName) {
         this.tableName = tableName;
-        this.con = con;
+        this.connection = connection;
     }
+
+
 }
