@@ -5,4 +5,5 @@ package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.t
  */
 public interface Controller {
     public void showCommands();
+    public void start();
 }
