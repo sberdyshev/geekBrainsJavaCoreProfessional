@@ -11,6 +11,12 @@ import java.util.Scanner;
  * @author sberdyshev
  */
 public class StudentAppCLIController implements CLIController {
+    private final int maxTryCount;
+
+    public StudentAppCLIController(int maxTryCount) {
+        this.maxTryCount = maxTryCount;
+    }
+
     @Override
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -20,26 +26,16 @@ public class StudentAppCLIController implements CLIController {
         do {
             showEnterCommandInvitation();
             Command command = parse(scanner.nextLine());
-
             if (command.checkWrongArgs()) {
-                System.out.println("Неверный тип аргументов или аргументов не хватает, попробуйте еще");
+                showWrongArgsMessage();
                 tryCount += 1;
             } else {
                 switch (command.getType()) {
                     case EXIT:
-                        System.out.println("Спасибо за использование, до свидания!");
+                        processExit();
                         isExit = true;
                         break;
-                    case NONE:
-                        if (tryCount == AppConstants.getTryCount()) {
-                            System.out.println("Вы ввели слишком много неверных команд. Возможно, вы устали. Попробуйте в другой раз. До свидания.");
-                            isExit = true;
-                        } else {
-                            tryCount += 1;
-                            System.out.println("Неверная команда, попробуйте еще.");
-                        }
-                        break;
-                    case CHANGE_COST: {
+                    case ADD_STUDENT: {
                         tryCount = 0;
                         String title = command.getArgAtPos(0);
                         Double cost = Double.parseDouble(command.getArgAtPos(1));
@@ -49,9 +45,9 @@ public class StudentAppCLIController implements CLIController {
                         } else {
                             System.out.println("Данные не обновлены.");
                         }
+                        break;
                     }
-                    break;
-                    case GET_GOODS_IN_A_COST_RANGE: {
+                    case GET_STUDENT: {
                         boolean foundSmth = false;
                         Double lowestCost = Double.parseDouble(command.getArgAtPos(0));
                         Double highestCost = Double.parseDouble(command.getArgAtPos(1));
@@ -65,9 +61,9 @@ public class StudentAppCLIController implements CLIController {
                             System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
                             tryCount += 1;
                         }
+                        break;
                     }
-                    break;
-                    case GET_COST: {
+                    case GET_STUDENTS: {
                         String title = command.getArgAtPos(0);
                         Double cost = goodsJdbcCaller.getGoodPrice(title);
                         if (cost != null) {
@@ -77,12 +73,45 @@ public class StudentAppCLIController implements CLIController {
                             System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
                             tryCount += 1;
                         }
-
+                        break;
                     }
-                    break;
+                    case UPDATE_STUDENT: {
+                        String title = command.getArgAtPos(0);
+                        Double cost = goodsJdbcCaller.getGoodPrice(title);
+                        if (cost != null) {
+                            System.out.println("Цена на " + title + " - " + cost + ".");
+                            tryCount = 0;
+                        } else {
+                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
+                            tryCount += 1;
+                        }
+                        break;
+                    }
+                    case HELP: {
+                        String title = command.getArgAtPos(0);
+                        Double cost = goodsJdbcCaller.getGoodPrice(title);
+                        if (cost != null) {
+                            System.out.println("Цена на " + title + " - " + cost + ".");
+                            tryCount = 0;
+                        } else {
+                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
+                            tryCount += 1;
+                        }
+                        break;
+                    }
+                    default: {
+                        if (tryCount == maxTryCount) {
+                            showExaustedTriesMessage();
+                            showGoodBuyMessage();
+                            isExit = true;
+                        } else {
+                            tryCount += 1;
+                            showWrongCommandMessage();
+                        }
+                        break;
+                    }
                 }
             }
-
         } while (!isExit);
     }
 
@@ -97,10 +126,7 @@ public class StudentAppCLIController implements CLIController {
         return null;
     }
 
-    private StudentAppCLIController() {
-    }
-
-    public static List<String> getArgs(String line, CommandType commandType) {
+    private List<String> getArgs(String line, CommandType commandType) {
         List<String> args = new ArrayList<>();
         String lineWithoutCommand = line.substring(commandType.getCommandDescr().length());
         int leadingIndexOfWhiteSpaceForAPreviousCommand = 0;
@@ -108,7 +134,7 @@ public class StudentAppCLIController implements CLIController {
         int trailingIndexOfWhiteSpace = 0;
         for (int i = 0; i < commandType.getArgsAmount(); i++) {
             leadingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpaceForAPreviousCommand);
-            trailingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpace+1);
+            trailingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpace + 1);
             String arg = null;
             if (leadingIndexOfWhiteSpace >= trailingIndexOfWhiteSpace) {
                 arg = line.substring(leadingIndexOfWhiteSpace).trim();
@@ -122,5 +148,29 @@ public class StudentAppCLIController implements CLIController {
             leadingIndexOfWhiteSpaceForAPreviousCommand = leadingIndexOfWhiteSpace;
         }
         return args;
+    }
+
+    private void processGetStudent() {
+
+    }
+
+    private void processGetAllStudents() {
+
+    }
+
+    private void processAddStudent() {
+
+    }
+
+    private void processUpdateStudent() {
+
+    }
+
+    private void processHelp() {
+
+    }
+
+    private void processExit() {
+        showGoodBuyMessage();
     }
 }

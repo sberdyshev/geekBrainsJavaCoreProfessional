@@ -7,17 +7,33 @@ import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.te
  * @author sberdyshev
  */
 public interface CLIController extends Controller {
-    public Command parse(String line);
+    Command parse(String line);
 
-    public default void showEnterCommandInvitation() {
+    default void showEnterCommandInvitation() {
         System.out.print("Enter your command: ");
     }
 
+    default void showWrongArgsMessage() {
+        System.out.println("Wrong amount or type af arguments, try one more time.");
+    }
+
+    default void showGoodBuyMessage() {
+        System.out.println("Thank you for using this, buy-buy!");
+    }
+
+    default void showExaustedTriesMessage() {
+        System.out.println("You entered too many wrong commands. You are tired, probably. Try next time.");
+    }
+
+    default void showWrongCommandMessage() {
+        System.out.println("Wrong command. Try " + CommandType.HELP.getCommandName());
+    }
+
     @Override
-    public default void showCommands() {
+    default void showCommands() {
         CommandType[] commandList = CommandType.values();
-        for (CommandType commandType: commandList) {
-            System.out.println("Команда: " + commandType.getCommandName() + ". Описание: " + commandType.getCommandDescr());
+        for (CommandType commandType : commandList) {
+            System.out.println("Command: " + commandType.getCommandName() + ". Description: " + commandType.getCommandDescr());
         }
     }
 }

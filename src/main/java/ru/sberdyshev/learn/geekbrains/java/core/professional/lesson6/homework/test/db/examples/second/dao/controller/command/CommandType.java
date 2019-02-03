@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
  */
 @Getter
 public enum CommandType {
-    GET_STUDENT("/получить студента", "Получить информацию о студенте. Формат - \"/получить студента <id>\".", 1, Integer.class),
-    GET_STUDENTS("/получить студентов", "Получить информацию обо всех студентах. Формат - \"/получить студентов\".", 0),
-    ADD_STUDENT("/добавить студента", "Добавить студента. Формат - \"/добавить студента <id> <имя студента> <средний балл студента>\".", 3, Integer.class, String.class, String.class),
-    UPDATE_STUDENT("/обновить студента", "Обновить информацию о студенте. Формат - \"/обновить студента <id> <новое имя студента> <новый средний балл студента>\".", 3, Integer.class, String.class, String.class),
-    SHOW_COMMANDS("/команды", "Получить список команд. Формат - \"/команды\".", 0),
-    EXIT("/выход", "Выйти из приложения. Формат - \"/выход\".", 0);
+    GET_STUDENT("/getStud", "Get student info. Format - \"/getStud <id (integer)>\".", 1, Integer.class),
+    GET_STUDENTS("/getAllStuds", "Get all student info. Format - \"/getAllStuds\".", 0),
+    ADD_STUDENT("/addStud", "Add student. Format - \"/addStud <id (integer)> <name (string)> <average score (string)>\".", 3, Integer.class, String.class, String.class),
+    UPDATE_STUDENT("/updStud", "Update student info. Format - \"/updStud <current id (integer)> <new name (string)> <new average score (string)>\".", 3, Integer.class, String.class, String.class),
+    HELP    ("/help", "Get command list. Format - \"/help\".", 0),
+    EXIT("/exit", "Exit. Format - \"/exit\".", 0);
 
     private final static Logger logger = LoggerFactory.getLogger(CommandType.class);
     private String commandName;

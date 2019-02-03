@@ -10,13 +10,13 @@ import java.util.List;
  * @author sberdyshev
  */
 public class Command {
-    @Getter
-    private CommandType commandType;
-    private List<String> arguments;
     private final static Logger logger = LoggerFactory.getLogger(Command.class);
+    @Getter
+    private CommandType type;
+    private List<String> arguments;
 
-    public Command(CommandType commandType, List<String> arguments) {
-        this.commandType = commandType;
+    public Command(CommandType type, List<String> arguments) {
+        this.type = type;
         this.arguments = arguments;
     }
 
@@ -26,29 +26,19 @@ public class Command {
 
     private boolean checkEnoughArgs() {
         boolean result = false;
-        if (arguments != null && commandType != null) {
-            if (arguments.size() == commandType.getArgsAmount())
+        if (arguments != null && type != null) {
+            if (arguments.size() == type.getArgsAmount())
                 return true;
         }
-//        for (int i = 0; i < argsAmount; i++) {
-//            try {
-//                String arg = arguments.get(i);
-//                if (arg == null) {
-//                    result = false;
-//                }
-//            } catch (IndexOutOfBoundsException e) {
-//                result = false;
-//            }
-//        }
         return result;
     }
 
     public boolean checkWrongArgs() {
         int argsAmount = arguments.size();
-        if(!checkEnoughArgs()) {
+        if (!checkEnoughArgs()) {
             return false;
         }
-        Class<?>[] paramClassTypeList = commandType.getParamClassTypeList();
+        Class<?>[] paramClassTypeList = type.getParamClassTypeList();
         for (int i = 0; i < argsAmount; i++) {
             try {
                 paramClassTypeList[i].cast(arguments.get(i));
