@@ -1,8 +1,13 @@
 package ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.db.examples.second.dao.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.db.examples.second.dao.StudentDao;
 import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.db.examples.second.dao.controller.command.Command;
 import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.db.examples.second.dao.controller.command.CommandType;
+import ru.sberdyshev.learn.geekbrains.java.core.professional.lesson6.homework.test.db.examples.second.entity.Student;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,16 +16,18 @@ import java.util.Scanner;
  * @author sberdyshev
  */
 public class StudentAppCLIController implements CLIController {
+    private final static Logger logger = LoggerFactory.getLogger(StudentAppCLIController.class);
     private final int maxTryCount;
+    private final StudentDao studentDao;
 
-    public StudentAppCLIController(int maxTryCount) {
+    public StudentAppCLIController(int maxTryCount, StudentDao studentDao) {
         this.maxTryCount = maxTryCount;
+        this.studentDao = studentDao;
     }
 
     @Override
-    public void start() {
+    public void start() throws IllegalStateException {
         Scanner scanner = new Scanner(System.in);
-//        GoodsDao goodsJdbcCaller = new GoodsJdbcImplDao();
         boolean isExit = false;
         int tryCount = 0;
         do {
@@ -37,78 +44,38 @@ public class StudentAppCLIController implements CLIController {
                         break;
                     case ADD_STUDENT: {
                         tryCount = 0;
-                        String title = command.getArgAtPos(0);
-                        Double cost = Double.parseDouble(command.getArgAtPos(1));
-                        int updatedRows = goodsJdbcCaller.changeGoodPrice(title, cost);
-                        if (updatedRows > 0) {
-                            System.out.println("Обновлено " + updatedRows + " строк.");
-                        } else {
-                            System.out.println("Данные не обновлены.");
-                        }
+                        processAddStudent(command);
                         break;
                     }
                     case GET_STUDENT: {
-                        boolean foundSmth = false;
-                        Double lowestCost = Double.parseDouble(command.getArgAtPos(0));
-                        Double highestCost = Double.parseDouble(command.getArgAtPos(1));
-                        List<Good> goods = goodsJdbcCaller.getGoodsWithSpecificPrice(lowestCost, highestCost);
-                        for (Good good : goods) {
-                            System.out.println("Товар: " + good.getTitle() + ". Цена: " + good.getCost() + ".");
-                            foundSmth = true;
-                            tryCount = 0;
-                        }
-                        if (!foundSmth) {
-                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
-                            tryCount += 1;
-                        }
+                        tryCount = 0;
+                        processGetStudent(command);
                         break;
                     }
                     case GET_STUDENTS: {
-                        String title = command.getArgAtPos(0);
-                        Double cost = goodsJdbcCaller.getGoodPrice(title);
-                        if (cost != null) {
-                            System.out.println("Цена на " + title + " - " + cost + ".");
-                            tryCount = 0;
-                        } else {
-                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
-                            tryCount += 1;
-                        }
+                        tryCount = 0;
+                        processGetAllStudents();
                         break;
                     }
                     case UPDATE_STUDENT: {
-                        String title = command.getArgAtPos(0);
-                        Double cost = goodsJdbcCaller.getGoodPrice(title);
-                        if (cost != null) {
-                            System.out.println("Цена на " + title + " - " + cost + ".");
-                            tryCount = 0;
-                        } else {
-                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
-                            tryCount += 1;
-                        }
+                        tryCount = 0;
+                        processUpdateStudent(command);
                         break;
                     }
                     case HELP: {
-                        String title = command.getArgAtPos(0);
-                        Double cost = goodsJdbcCaller.getGoodPrice(title);
-                        if (cost != null) {
-                            System.out.println("Цена на " + title + " - " + cost + ".");
-                            tryCount = 0;
-                        } else {
-                            System.out.println("Не нашлось подходящих товаров. Попробуйте еще раз.");
-                            tryCount += 1;
-                        }
+                        tryCount = 0;
+                        processHelp();
+                        break;
+                    }
+                    case NONE: {
+                        tryCount += 1;
+                        isExit = processWrongCommand(tryCount);
                         break;
                     }
                     default: {
-                        if (tryCount == maxTryCount) {
-                            showExaustedTriesMessage();
-                            showGoodBuyMessage();
-                            isExit = true;
-                        } else {
-                            tryCount += 1;
-                            showWrongCommandMessage();
-                        }
-                        break;
+                        IllegalStateException e = new IllegalStateException("Wrong command type: " + command.getType());
+                        logger.error(e.getLocalizedMessage(), e);
+                        throw e;
                     }
                 }
             }
@@ -123,7 +90,7 @@ public class StudentAppCLIController implements CLIController {
                 return new Command(commandType, args);
             }
         }
-        return null;
+        return new Command(CommandType.NONE, new ArrayList<>());
     }
 
     private List<String> getArgs(String line, CommandType commandType) {
@@ -150,24 +117,88 @@ public class StudentAppCLIController implements CLIController {
         return args;
     }
 
-    private void processGetStudent() {
-
+    private boolean processGetStudent(Command command) {
+        Integer id = new Integer(command.getArgAtPos(0));
+        try {
+            Student student = studentDao.getEntity(id);
+            System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" added");
+            logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
+        } catch (SQLException e) {
+            logger.error("Couldn't get student: " + e.getLocalizedMessage(), e);
+            return false;
+        } catch (IllegalArgumentException e) {
+            logger.error("Couldn't get student: " + e.getLocalizedMessage(), e);
+            return false;
+        }
+        return true;
     }
 
-    private void processGetAllStudents() {
-
+    private boolean processGetAllStudents() {
+        try {
+            List<Student> students = studentDao.getEntities();
+            System.out.println("Got all students!");
+            logger.info("Got all students!");
+            for (Student student : students) {
+                System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" added");
+                logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
+            }
+        } catch (SQLException e) {
+            logger.error("Couldn't get students: " + e.getLocalizedMessage(), e);
+            return false;
+        }
+        return true;
     }
 
-    private void processAddStudent() {
-
+    private boolean processAddStudent(Command command) {
+        Integer id = new Integer(command.getArgAtPos(0));
+        String name = command.getArgAtPos(1);
+        Integer score = new Integer(command.getArgAtPos(2));
+        Student student = new Student(id, name, score);
+        try {
+            studentDao.addEntity(student);
+            logger.info("Student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
+        } catch (SQLException e) {
+            logger.error("Couldn't add student: " + e.getLocalizedMessage(), e);
+            return false;
+        } catch (IllegalArgumentException e) {
+            logger.error("Couldn't add student: " + e.getLocalizedMessage(), e);
+            return false;
+        }
+        return true;
     }
 
-    private void processUpdateStudent() {
-
+    private boolean processUpdateStudent(Command command) {
+        Integer id = new Integer(command.getArgAtPos(0));
+        String name = command.getArgAtPos(1);
+        Integer score = new Integer(command.getArgAtPos(2));
+        Student student = new Student(id, name, score);
+        try {
+            studentDao.updateEntity(student);
+            logger.info("Student with id \"{}\" updated. New name - \"{}\", new score - \"{}\"", student.getId(), student.getName(), student.getScore());
+        } catch (SQLException e) {
+            logger.error("Couldn't update student: " + e.getLocalizedMessage(), e);
+            return false;
+        } catch (IllegalArgumentException e) {
+            logger.error("Couldn't update student: " + e.getLocalizedMessage(), e);
+            return false;
+        }
+        return true;
     }
 
     private void processHelp() {
+        showHelpMessage();
+    }
 
+    private boolean processWrongCommand(int tryCount) {
+        boolean isExit = false;
+        if (tryCount >= maxTryCount) {
+            showExaustedTriesMessage();
+            showGoodBuyMessage();
+            isExit = true;
+        } else {
+            showWrongCommandMessage();
+        }
+        return isExit;
     }
 
     private void processExit() {

@@ -22,12 +22,12 @@ public class StudentDao extends GenericDao<Student> {
     }
 
     @Override
-    public List<Student> getEntities() throws SQLException{
+    public List<Student> getEntities() throws SQLException {
         return null;
     }
 
     @Override
-    public Student getEntity() throws SQLException {
+    public Student getEntity(Integer id) throws SQLException {
         return null;
     }
 
@@ -37,7 +37,7 @@ public class StudentDao extends GenericDao<Student> {
     }
 
     @Override
-    public boolean addEntity(Student entity) throws SQLException {
+    public boolean addEntity(Student entity) throws SQLException, IllegalArgumentException {
         return false;
     }
 }

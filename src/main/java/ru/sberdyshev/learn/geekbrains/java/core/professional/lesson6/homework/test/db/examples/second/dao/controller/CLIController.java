@@ -29,6 +29,11 @@ public interface CLIController extends Controller {
         System.out.println("Wrong command. Try " + CommandType.HELP.getCommandName());
     }
 
+    default void showHelpMessage() {
+        System.out.println("All possible commands:");
+        showCommands();
+    }
+
     @Override
     default void showCommands() {
         CommandType[] commandList = CommandType.values();

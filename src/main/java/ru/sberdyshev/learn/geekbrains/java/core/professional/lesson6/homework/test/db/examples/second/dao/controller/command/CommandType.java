@@ -13,8 +13,9 @@ public enum CommandType {
     GET_STUDENTS("/getAllStuds", "Get all student info. Format - \"/getAllStuds\".", 0),
     ADD_STUDENT("/addStud", "Add student. Format - \"/addStud <id (integer)> <name (string)> <average score (string)>\".", 3, Integer.class, String.class, String.class),
     UPDATE_STUDENT("/updStud", "Update student info. Format - \"/updStud <current id (integer)> <new name (string)> <new average score (string)>\".", 3, Integer.class, String.class, String.class),
-    HELP    ("/help", "Get command list. Format - \"/help\".", 0),
-    EXIT("/exit", "Exit. Format - \"/exit\".", 0);
+    HELP("/help", "Get command list. Format - \"/help\".", 0),
+    EXIT("/exit", "Exit. Format - \"/exit\".", 0),
+    NONE(null, null, 0);
 
     private final static Logger logger = LoggerFactory.getLogger(CommandType.class);
     private String commandName;
@@ -22,7 +23,7 @@ public enum CommandType {
     private int argsAmount;
     private Class<?>[] paramClassTypeList;
 
-    private CommandType(String commandName, String commandDescr, int argsAmount, Class<?>... paramClassTypeList) {
+    CommandType(String commandName, String commandDescr, int argsAmount, Class<?>... paramClassTypeList) {
         if (paramClassTypeList.length != argsAmount) {
             IllegalArgumentException e = new IllegalArgumentException("Amount of args should be equal to amount of Class variables");
             throw e;
