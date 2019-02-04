@@ -18,18 +18,25 @@ public class DataSourceFactory {
     private final static Logger logger = LoggerFactory.getLogger(DataSourceFactory.class);
 
     public static DataSource getPostgreSQLDataSource() {
+        logger.debug("Trying to get postgresql data source");
         Properties props = new Properties();
-        InputStream is = null;
+        InputStream is;
         PGSimpleDataSource postgresqlDS = null;
         try {
-            is = new BufferedInputStream(new FileInputStream("db.properties"));
+            is = new BufferedInputStream(new FileInputStream("C:\\Users\\SBerdyshev\\IdeaProjects\\geekBrainsJavaCoreProfessional\\src\\main\\resources\\db.properties"));
             props.load(is);
             postgresqlDS = new PGSimpleDataSource();
-            postgresqlDS.setDatabaseName(props.getProperty("POSTGRESQL_DB_NAME"));
-            postgresqlDS.setPortNumber(Integer.getInteger(props.getProperty("POSTGRESQL_DB_PORT")));
-            postgresqlDS.setServerName(props.getProperty("POSTGRESQL_DB_IP"));
-            postgresqlDS.setUser(props.getProperty("POSTGRESQL_DB_USERNAME"));
-            postgresqlDS.setPassword(props.getProperty("POSTGRESQL_DB_PASSWORD"));
+            String postgresqlDbName = props.getProperty("POSTGRESQL_DB_NAME");
+            Integer postgresqlDbPort = Integer.getInteger(props.getProperty("POSTGRESQL_DB_PORT"));
+            String postgresqlDbUsername = props.getProperty("POSTGRESQL_DB_USERNAME");
+            String postgresqlDbPassword = props.getProperty("POSTGRESQL_DB_PASSWORD");
+            String postgresqlDbIp = props.getProperty("POSTGRESQL_DB_IP");
+            postgresqlDS.setDatabaseName(postgresqlDbName);
+            postgresqlDS.setPortNumber(postgresqlDbPort);
+            postgresqlDS.setServerName(postgresqlDbIp);
+            postgresqlDS.setUser(postgresqlDbUsername);
+            postgresqlDS.setPassword(postgresqlDbPassword);
+            logger.debug("Got postgresql data source with db name \"{}\", db port \"{}\", db ip \"{}\", db username \"{}\", db password \"{}\"", postgresqlDbName, postgresqlDbPort, postgresqlDbIp, postgresqlDbUsername, postgresqlDbPassword);
         } catch (IOException e) {
             logger.error("Couldn't get connection to postresql", e);
         }

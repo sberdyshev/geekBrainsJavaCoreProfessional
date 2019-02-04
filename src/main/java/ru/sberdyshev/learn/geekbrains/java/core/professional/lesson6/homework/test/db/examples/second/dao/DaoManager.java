@@ -27,9 +27,11 @@ public class DaoManager {
     }
 
     public void open() throws SQLException {
+        logger.debug("Trying to open connection");
         try {
             if (this.connection == null || this.connection.isClosed())
                 this.connection = dataSource.getConnection();
+            logger.info("Connection to db has been opened");
         } catch (SQLException e) {
             logger.error("Connection opening error", e);
             throw e;
@@ -37,9 +39,11 @@ public class DaoManager {
     }
 
     public void close() throws SQLException {
+        logger.debug("Trying to close connection");
         try {
             if (this.connection != null && !this.connection.isClosed())
                 this.connection.close();
+            logger.info("Connection to db has been closed");
         } catch (SQLException e) {
             logger.error("Connection closing error", e);
             throw e;
@@ -47,9 +51,11 @@ public class DaoManager {
     }
 
     public GenericDao getDao(Table table) throws SQLException {
+        logger.debug("Trying to get dao of the table {}", table);
         try {
             if (this.connection == null || this.connection.isClosed())
                 this.open();
+            logger.info("Got DB connection to the table {}", table);
         } catch (SQLException e) {
             logger.error("Couldn't open a connection to the DB", e);
             throw e;

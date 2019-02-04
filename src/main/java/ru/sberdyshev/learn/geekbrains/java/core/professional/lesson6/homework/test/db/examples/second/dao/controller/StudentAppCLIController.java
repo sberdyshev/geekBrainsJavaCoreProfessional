@@ -27,48 +27,58 @@ public class StudentAppCLIController implements CLIController {
 
     @Override
     public void start() throws IllegalStateException {
+        logger.debug("StudentAppCLIController started");
         Scanner scanner = new Scanner(System.in);
         boolean isExit = false;
         int tryCount = 0;
         do {
             showEnterCommandInvitation();
-            Command command = parse(scanner.nextLine());
+            String line = scanner.nextLine();
+            logger.debug("Line read \"{}\"", line);
+            Command command = parse(line);
             if (command.checkWrongArgs()) {
                 showWrongArgsMessage();
                 tryCount += 1;
             } else {
                 switch (command.getType()) {
                     case EXIT:
+                        logger.debug("Choosed EXIT");
                         processExit();
                         isExit = true;
                         break;
                     case ADD_STUDENT: {
                         tryCount = 0;
+                        logger.debug("Choosed ADD_STUDENT, tryCount = {}", tryCount);
                         processAddStudent(command);
                         break;
                     }
                     case GET_STUDENT: {
                         tryCount = 0;
+                        logger.debug("Choosed GET_STUDENT, tryCount = {}", tryCount);
                         processGetStudent(command);
                         break;
                     }
                     case GET_STUDENTS: {
                         tryCount = 0;
+                        logger.debug("Choosed GET_STUDENTS, tryCount = {}", tryCount);
                         processGetAllStudents();
                         break;
                     }
                     case UPDATE_STUDENT: {
                         tryCount = 0;
+                        logger.debug("Choosed UPDATE_STUDENT, tryCount = {}", tryCount);
                         processUpdateStudent(command);
                         break;
                     }
                     case HELP: {
                         tryCount = 0;
+                        logger.debug("Choosed HELP, tryCount = {}", tryCount);
                         processHelp();
                         break;
                     }
                     case NONE: {
                         tryCount += 1;
+                        logger.debug("Wrong command, tryCount = {}", tryCount);
                         isExit = processWrongCommand(tryCount);
                         break;
                     }
@@ -87,6 +97,7 @@ public class StudentAppCLIController implements CLIController {
         for (CommandType commandType : CommandType.values()) {
             if (line.startsWith(commandType.getCommandName())) {
                 List<String> args = getArgs(line, commandType);
+                logger.debug("Arguments: {}", args);
                 return new Command(commandType, args);
             }
         }
@@ -158,9 +169,6 @@ public class StudentAppCLIController implements CLIController {
             studentDao.addEntity(student);
             logger.info("Student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
         } catch (SQLException e) {
-            logger.error("Couldn't add student: " + e.getLocalizedMessage(), e);
-            return false;
-        } catch (IllegalArgumentException e) {
             logger.error("Couldn't add student: " + e.getLocalizedMessage(), e);
             return false;
         }

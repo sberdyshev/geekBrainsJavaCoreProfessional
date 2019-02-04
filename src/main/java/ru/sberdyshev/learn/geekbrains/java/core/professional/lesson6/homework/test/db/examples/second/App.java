@@ -26,6 +26,12 @@ public class App {
             logger.error("Couldn't get student dao", e);
         } catch (IllegalStateException e) {
             logger.error("Smth went wrong", e);
+        } finally {
+            try {
+                daoManager.close();
+            } catch (SQLException e) {
+                logger.error("Can't close dao", e);
+            }
         }
     }
 }

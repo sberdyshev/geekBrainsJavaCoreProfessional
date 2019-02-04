@@ -9,8 +9,8 @@ import java.util.List;
  * @author sberdyshev
  */
 public abstract class GenericDao<T> {
-    private final String tableName;
-    private Connection connection;
+    protected final String tableName;
+    protected Connection connection;
 
     public GenericDao(Connection connection, String tableName) {
         this.tableName = tableName;
