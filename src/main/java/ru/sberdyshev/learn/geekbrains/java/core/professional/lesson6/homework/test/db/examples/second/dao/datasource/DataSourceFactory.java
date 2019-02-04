@@ -27,7 +27,7 @@ public class DataSourceFactory {
             props.load(is);
             postgresqlDS = new PGSimpleDataSource();
             String postgresqlDbName = props.getProperty("POSTGRESQL_DB_NAME");
-            Integer postgresqlDbPort = Integer.getInteger(props.getProperty("POSTGRESQL_DB_PORT"));
+            Integer postgresqlDbPort = Integer.parseInt(props.getProperty("POSTGRESQL_DB_PORT"));
             String postgresqlDbUsername = props.getProperty("POSTGRESQL_DB_USERNAME");
             String postgresqlDbPassword = props.getProperty("POSTGRESQL_DB_PASSWORD");
             String postgresqlDbIp = props.getProperty("POSTGRESQL_DB_IP");
