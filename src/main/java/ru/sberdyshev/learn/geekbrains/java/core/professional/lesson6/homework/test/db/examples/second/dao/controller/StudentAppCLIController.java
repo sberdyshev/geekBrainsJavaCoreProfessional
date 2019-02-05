@@ -36,7 +36,7 @@ public class StudentAppCLIController implements CLIController {
             String line = scanner.nextLine();
             logger.debug("Line read \"{}\"", line);
             Command command = parse(line);
-            if (command.checkWrongArgs()) {
+            if (command.checkArgsAreCorrrect()) {
                 showWrongArgsMessage();
                 tryCount += 1;
             } else {

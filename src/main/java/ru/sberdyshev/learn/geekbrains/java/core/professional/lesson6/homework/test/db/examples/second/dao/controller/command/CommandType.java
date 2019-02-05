@@ -23,6 +23,10 @@ public enum CommandType {
     private int argsAmount;
     private Class<?>[] paramClassTypeList;
 
+    public int getArgsAmount() {
+        return argsAmount;
+    }
+
     CommandType(String commandName, String commandDescr, int argsAmount, Class<?>... paramClassTypeList) {
         if (paramClassTypeList.length != argsAmount) {
             IllegalArgumentException e = new IllegalArgumentException("Amount of args should be equal to amount of Class variables");
