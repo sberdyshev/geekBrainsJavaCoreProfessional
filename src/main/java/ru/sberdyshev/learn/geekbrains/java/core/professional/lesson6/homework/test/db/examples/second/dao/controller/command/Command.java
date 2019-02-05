@@ -119,15 +119,6 @@ public class Command {
                 logger.error(illegalArgumentException.getLocalizedMessage(), illegalArgumentException);
                 break;
         }
-        /*Class<?>[] paramClassTypeList = type.getParamClassTypeList();
-        for (int i = 0; i < argsAmount; i++) {
-            try {
-                paramClassTypeList[i].cast(arguments.get(i));
-            } catch (ClassCastException e) {
-                logger.warn("Argument \"{}\" has wrong type \"{}\"", arguments.get(i), paramClassTypeList[i]);
-                return false;
-            }
-        }*/
         return true;
     }
 }
