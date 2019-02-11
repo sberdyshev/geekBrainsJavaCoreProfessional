@@ -113,7 +113,7 @@ public class StudentAppCLIController implements CLIController {
         for (int i = 0; i < commandType.getArgsAmount(); i++) {
             leadingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpaceForAPreviousCommand);
             trailingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpace + 1);
-            String arg = null;
+            String arg;
             if (leadingIndexOfWhiteSpace >= trailingIndexOfWhiteSpace) {
                 arg = line.substring(leadingIndexOfWhiteSpace).trim();
             } else {

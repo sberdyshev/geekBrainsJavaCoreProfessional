@@ -64,7 +64,7 @@ public class DaoManager {
             case STUDENT:
                 return new StudentDao(this.connection, Table.STUDENT);
             default:
-                String errorDescr = "Trying to link to an unexistant table.";
+                String errorDescr = "Trying to link to an nonexistent table.";
                 SQLException e = new SQLException(errorDescr);
                 logger.error(errorDescr, e);
                 throw e;
