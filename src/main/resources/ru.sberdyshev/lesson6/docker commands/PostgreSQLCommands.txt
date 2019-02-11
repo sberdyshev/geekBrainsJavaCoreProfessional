@@ -1,0 +1,39 @@
+Работа с постгрей
+
+Создаем контейнер
+docker run --name java-postgres -e POSTGRES_PASSWORD=qwerty -p 5432:5432/tcp -p 5432:5432/udp -d postgres
+docker run --name java-gb-jcp6-postgres -e POSTGRES_PASSWORD=qwerty -p 5432:5432/tcp -p 5432:5432/udp -d postgres
+
+проверяем
+docker container ls -a
+docker port java-postgres
+docker port java-gb-jcp6-postgres
+
+заходим
+docker exec -it java-postgres bash
+
+удаляем
+docker container stop java-postgres
+docker container rm java-postgres
+
+___________________________________________________________________________
+создаем бд
+createdb -h 0.0.0.0 -p 5432 -U postgres geekbrains_java_prof_les2_hw
+createdb -h localhost -p 5432 -U postgres geekbrains_java_prof_les2_hw
+createdb -h localhost -p 5432 -U postgres geekbrains_java_prof_les6_hw
+
+dropdb -h localhost -p 5432 -U postgres geekbrains_java_prof_les2_hw
+dropdb -h localhost -p 5432 -U postgres geekbrains_java_prof_les6_hw
+
+входим в коммандную строку postgres
+psql
+
+смотрим список баз
+\l
+
+коннектимся
+\c geekbrains_java_prof_les2_hw
+\c geekbrains_java_prof_les6_hw
+
+смотрим таблицы
+\dt
