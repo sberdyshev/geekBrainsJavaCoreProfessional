@@ -94,11 +94,23 @@ public class StudentAppCLIController implements CLIController {
 
     @Override
     public Command parse(String line) {
+        logger.debug("Parsing line: {}", line);
         for (CommandType commandType : CommandType.values()) {
-            if (line.startsWith(commandType.getCommandName())) {
-                List<String> args = getArgs(line, commandType);
-                logger.debug("Arguments: {}", args);
-                return new Command(commandType, args);
+            if (commandType.equals(CommandType.NONE)) {
+                continue;
+            }
+            boolean lineStartsWithCurrentCommand = line.startsWith(commandType.getCommandName());
+            boolean commandHasArgs = line.length() > commandType.getCommandName().length();
+            boolean commandSeparatedFromArgsWithSpace = line.startsWith(commandType.getCommandName() + " ");
+            if (lineStartsWithCurrentCommand) {
+                if (!commandHasArgs || (commandHasArgs && commandSeparatedFromArgsWithSpace)) {
+                    List<String> args = getArgs(line, commandType);
+                    logger.debug("Command type: {}", commandType);
+                    logger.debug("Arguments: {}", args);
+                    return new Command(commandType, args);
+                } else {
+                    break;
+                }
             }
         }
         return new Command(CommandType.NONE, new ArrayList<>());
@@ -106,24 +118,34 @@ public class StudentAppCLIController implements CLIController {
 
     private List<String> getArgs(String line, CommandType commandType) {
         List<String> args = new ArrayList<>();
-        String lineWithoutCommand = line.substring(commandType.getCommandDescr().length());
+        int commandLength = commandType.getCommandName().length();
+        String lineWithoutCommand;
+        if (commandLength < line.length()) {
+            lineWithoutCommand = line.substring(commandLength);
+        } else {
+            return args;
+        }
         int leadingIndexOfWhiteSpaceForAPreviousCommand = 0;
         int leadingIndexOfWhiteSpace = 0;
         int trailingIndexOfWhiteSpace = 0;
-        for (int i = 0; i < commandType.getArgsAmount(); i++) {
+        int spacesAmountInTheLine = (int) line.chars().filter(ch -> ch == ' ').count();
+        for (int i = 0; i < spacesAmountInTheLine; i++) {
             leadingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpaceForAPreviousCommand);
             trailingIndexOfWhiteSpace = lineWithoutCommand.indexOf(' ', leadingIndexOfWhiteSpace + 1);
             String arg;
             if (leadingIndexOfWhiteSpace >= trailingIndexOfWhiteSpace) {
-                arg = line.substring(leadingIndexOfWhiteSpace).trim();
+                arg = lineWithoutCommand.substring(leadingIndexOfWhiteSpace).trim();
             } else {
-                arg = line.substring(leadingIndexOfWhiteSpace, trailingIndexOfWhiteSpace).trim();
+                arg = lineWithoutCommand.substring(leadingIndexOfWhiteSpace, trailingIndexOfWhiteSpace).trim();
             }
             if ("".equals(arg)) {
                 arg = null;
             }
             args.add(arg);
-            leadingIndexOfWhiteSpaceForAPreviousCommand = leadingIndexOfWhiteSpace;
+            if (trailingIndexOfWhiteSpace < 0) {
+                break;
+            }
+            leadingIndexOfWhiteSpaceForAPreviousCommand = trailingIndexOfWhiteSpace;
         }
         return args;
     }
