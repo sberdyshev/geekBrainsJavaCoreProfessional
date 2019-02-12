@@ -10,6 +10,9 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * @author sberdyshev
+ */
 public class StudentAppCLIControllerTest {
 
     @Test

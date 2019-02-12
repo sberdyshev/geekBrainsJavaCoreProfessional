@@ -26,6 +26,16 @@ public class DaoManager {
         return DAOManagerSingleton.INSTANCE.get();
     }
 
+    public static DaoManager getInstance(DataSource dataSource) {
+        DaoManager daoManager = DAOManagerSingleton.INSTANCE.get();
+        daoManager.setDataSource(dataSource);
+        return daoManager;
+    }
+
+    private void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public void open() throws SQLException {
         logger.debug("Trying to open connection");
         try {
