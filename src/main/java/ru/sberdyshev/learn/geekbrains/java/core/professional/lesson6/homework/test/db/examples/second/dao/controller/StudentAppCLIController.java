@@ -36,7 +36,7 @@ public class StudentAppCLIController implements CLIController {
             String line = scanner.nextLine();
             logger.debug("Line read \"{}\"", line);
             Command command = parse(line);
-            if (command.checkArgsAreCorrrect()) {
+            if (!command.checkArgsAreCorrrect()) {
                 showWrongArgsMessage();
                 tryCount += 1;
             } else {
@@ -154,8 +154,8 @@ public class StudentAppCLIController implements CLIController {
         Integer id = new Integer(command.getArgAtPos(0));
         try {
             Student student = studentDao.getEntity(id);
-            System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" added");
-            logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
+            System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" found");
+            logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" found", student.getId(), student.getName(), student.getScore());
         } catch (SQLException e) {
             logger.error("Couldn't get student: " + e.getLocalizedMessage(), e);
             return false;
@@ -172,8 +172,8 @@ public class StudentAppCLIController implements CLIController {
             System.out.println("Got all students!");
             logger.info("Got all students!");
             for (Student student : students) {
-                System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" added");
-                logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" added", student.getId(), student.getName(), student.getScore());
+                System.out.println("Student with id \"" + student.getId() + "\", name \"" + student.getName() + "\", score \"" + student.getScore() + "\" found");
+                logger.info("Got student with id \"{}\", name \"{}\", score \"{}\" found", student.getId(), student.getName(), student.getScore());
             }
         } catch (SQLException e) {
             logger.error("Couldn't get students: " + e.getLocalizedMessage(), e);

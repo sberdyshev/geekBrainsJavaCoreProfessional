@@ -38,7 +38,9 @@ public interface CLIController extends Controller {
     default void showCommands() {
         CommandType[] commandList = CommandType.values();
         for (CommandType commandType : commandList) {
-            System.out.println("Command: " + commandType.getCommandName() + ". Description: " + commandType.getCommandDescr());
+            if (commandType != CommandType.NONE) {
+                System.out.println("Command: " + commandType.getCommandName() + ". Description: " + commandType.getCommandDescr());
+            }
         }
     }
 }
