@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -42,10 +43,12 @@ public class AppMockTest {
         when(dataSource.getConnection()).thenReturn(connection);
         student = new Student(99, "Nick", 76);
         when(resultSet.first()).thenReturn(true);
+        when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         when(resultSet.getInt("ID")).thenReturn(student.getId());
         when(resultSet.getString("NAME")).thenReturn(student.getName());
         when(resultSet.getInt("SCORE")).thenReturn(student.getScore());
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        when(preparedStatement.executeUpdate()).thenReturn(1);
     }
 
     @Test
@@ -56,5 +59,35 @@ public class AppMockTest {
         assertThat(student.getId()).isEqualTo(this.student.getId());
         assertThat(student.getName()).isEqualTo(this.student.getName());
         assertThat(student.getScore()).isEqualTo(this.student.getScore());
+    }
+
+    @Test
+    public void checkGetStudents() throws SQLException {
+        DaoManager daoManager = DaoManager.getInstance(dataSource);
+        StudentDao studentDao = (StudentDao) daoManager.getDao(Table.STUDENT);
+        List<Student> students = studentDao.getEntities();
+        assertThat(students.size()).isEqualTo(2);
+        assertThat(students.get(0).getId()).isEqualTo(this.student.getId());
+        assertThat(students.get(0).getName()).isEqualTo(this.student.getName());
+        assertThat(students.get(0).getScore()).isEqualTo(this.student.getScore());
+        assertThat(students.get(1).getId()).isEqualTo(this.student.getId());
+        assertThat(students.get(1).getName()).isEqualTo(this.student.getName());
+        assertThat(students.get(1).getScore()).isEqualTo(this.student.getScore());
+    }
+
+    @Test
+    public void checkAddStudent() throws SQLException {
+        DaoManager daoManager = DaoManager.getInstance(dataSource);
+        StudentDao studentDao = (StudentDao) daoManager.getDao(Table.STUDENT);
+        boolean result = studentDao.addEntity(student);
+        assertThat(result).isEqualTo(true);
+    }
+
+    @Test
+    public void checkUpdateStudent() throws SQLException {
+        DaoManager daoManager = DaoManager.getInstance(dataSource);
+        StudentDao studentDao = (StudentDao) daoManager.getDao(Table.STUDENT);
+        boolean result = studentDao.updateEntity(student);
+        assertThat(result).isEqualTo(true);
     }
 }
