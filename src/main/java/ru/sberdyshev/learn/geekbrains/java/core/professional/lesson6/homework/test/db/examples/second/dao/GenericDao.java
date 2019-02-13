@@ -26,4 +26,12 @@ public abstract class GenericDao<T> {
     public abstract boolean updateEntity(T entity) throws SQLException;
 
     public abstract boolean addEntity(T entity) throws SQLException;
+
+    public abstract void commit() throws SQLException;
+
+    public abstract void rollback() throws SQLException;
+
+    public abstract void turnTransactionsHandlingOn() throws SQLException;
+
+    public abstract void turnTransactionsHandlingOff() throws SQLException;
 }

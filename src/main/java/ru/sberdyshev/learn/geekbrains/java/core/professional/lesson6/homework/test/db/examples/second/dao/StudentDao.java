@@ -28,7 +28,10 @@ public class StudentDao extends GenericDao<Student> {
         final String query = "SELECT COUNT(id) FROM " + tableName;
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
-        int result = resultSet.getInt("COUNT");
+        int result = 0;
+        if (resultSet.next()) {
+            result = resultSet.getInt("COUNT");
+        }
         logger.debug("Result of count() - {}", result);
         return result;
     }
@@ -58,12 +61,18 @@ public class StudentDao extends GenericDao<Student> {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        Integer resultStudentID = resultSet.getInt("ID");
-        String name = resultSet.getString("NAME");
-        Integer score = resultSet.getInt("SCORE");
-        Student result = new Student(resultStudentID, name, score);
-        logger.debug("Result of getEntity() - Student {} with id {}, name {}, score {}", result, result.getId(), result.getName(), result.getScore());
-        return result;
+        if (resultSet.next()) {
+            Integer resultStudentID = resultSet.getInt("ID");
+            String name = resultSet.getString("NAME");
+            Integer score = resultSet.getInt("SCORE");
+            Student result = new Student(resultStudentID, name, score);
+            logger.debug("Result of getEntity() - Student {} with id {}, name {}, score {}", result, result.getId(), result.getName(), result.getScore());
+            return result;
+        } else {
+            Student result = null;
+            logger.debug("Student with id {} is not found", id);
+            return result;
+        }
     }
 
     @Override
@@ -102,5 +111,33 @@ public class StudentDao extends GenericDao<Student> {
         }
         logger.debug("Result of addEntity() - {}", result);
         return result;
+    }
+
+    @Override
+    public void commit() throws SQLException {
+        if (!connection.isClosed() && !connection.getAutoCommit()) {
+            connection.commit();
+        }
+    }
+
+    @Override
+    public void rollback() throws SQLException {
+        if (!connection.isClosed() && !connection.getAutoCommit()) {
+            connection.rollback();
+        }
+    }
+
+    @Override
+    public void turnTransactionsHandlingOn() throws SQLException {
+        if (!connection.isClosed()) {
+            connection.setAutoCommit(false);
+        }
+    }
+
+    @Override
+    public void turnTransactionsHandlingOff() throws SQLException {
+        if (!connection.isClosed()) {
+            connection.setAutoCommit(true);
+        }
     }
 }

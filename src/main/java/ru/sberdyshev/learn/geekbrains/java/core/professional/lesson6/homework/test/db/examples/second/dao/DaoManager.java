@@ -81,6 +81,21 @@ public class DaoManager {
         }
     }
 
+    @Override
+    protected void finalize() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("SQLException during closing connection during DaoManager finalization", e);
+        } finally {
+            try {
+                super.finalize();
+            } catch (Throwable throwable) {
+                logger.error("Some exception during DaoManager finalization", throwable);
+            }
+        }
+    }
+
     private static class DAOManagerSingleton {
 
         public static final ThreadLocal<DaoManager> INSTANCE;
